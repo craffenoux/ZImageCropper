@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol ZImageCropperViewDelegate: class {
+    func didEndCropping(_ imageView: ZImageCropperView)
+}
+
 public class ZImageCropperView: UIImageView {
 
     //Update this to enable/disable cropping
@@ -18,6 +22,8 @@ public class ZImageCropperView: UIImageView {
     
     //Update this for path line width
     public var lineWidth:CGFloat = 2.0
+    
+    weak var delegate: ZImageCropperViewDelegate?
     
     private var path = UIBezierPath()
     private var shapeLayer = CAShapeLayer()
@@ -109,6 +115,7 @@ public class ZImageCropperView: UIImageView {
             path.addLine(to: touchPoint)
             addNewPathToImage()
             path.close()
+            delegate?.didEndCropping(self)
         }
     }
     
